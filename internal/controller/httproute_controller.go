@@ -50,7 +50,7 @@ func (r *HTTPRouteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	err := r.Get(ctx, req.NamespacedName, target)
 	if err == nil {
 		for _, parentRef := range target.Spec.ParentRefs {
-			namespace := target.ObjectMeta.Namespace
+			namespace := target.Namespace
 			if parentRef.Namespace != nil {
 				namespace = string(*parentRef.Namespace)
 			}
@@ -99,7 +99,7 @@ func (r *HTTPRouteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		siblingRoutes := []gatewayv1.HTTPRoute{}
 		for _, searchRoute := range routes.Items {
 			for _, searchParent := range searchRoute.Spec.ParentRefs {
-				namespace := searchRoute.ObjectMeta.Namespace
+				namespace := searchRoute.Namespace
 				if searchParent.Namespace != nil {
 					namespace = string(*searchParent.Namespace)
 				}
